@@ -41,6 +41,36 @@ class Solution {
         }
     }
 
+    class Fenwick {
+        vector<int> bit ;
+        int n;
+    public :
+        Fenwick(int n){
+            this->n = n;
+            bit.assign(n+1,0);
+        }
+
+        void update(int idx , int val)
+        {
+            while(idx<=n)
+            {
+                bit[idx]+=val;
+                idx += idx&(-idx);
+            }
+        }
+
+        int query(int idx)
+        {
+            int sum = 0;
+            while(idx>0)
+            {
+                sum += bit[idx];
+                idx -= idx&(-idx);
+            }
+            return sum;
+        }
+    };
+
 public:
     vector<int> countSmaller(vector<int>& nums) {
         // int n =  nums.size();
@@ -55,13 +85,45 @@ public:
 
         // return ans;
 
+
+
+
+
+
+
+
+        // int n = nums.size();
+        // vector<pair<int,int>> arr;
+        // ans.assign(n,0);
+
+        // for(int i=0 ; i<n ; i++) arr.push_back({nums[i],i});
+
+        // MergeSort(arr,0,n-1);
+
+        // return ans;
+
+
+
+
+
+
+        vector<int> temp = nums;
+        sort(temp.begin(),temp.end());
+        temp.erase(unique(temp.begin(),temp.end()) , temp.end());
+
         int n = nums.size();
-        vector<pair<int,int>> arr;
-        ans.assign(n,0);
+        vector<int> ans(n,0);
 
-        for(int i=0 ; i<n ; i++) arr.push_back({nums[i],i});
+        Fenwick ft(n);
 
-        MergeSort(arr,0,n-1);
+        for(int i=n-1 ; i>=0 ; i--)
+        {
+            int rank = lower_bound(temp.begin(),temp.end(),nums[i]) - temp.begin() + 1;
+
+            ans[i] = ft.query(rank - 1);
+
+            ft.update(rank , 1);
+        }
 
         return ans;
     }
