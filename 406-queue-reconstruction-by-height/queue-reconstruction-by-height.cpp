@@ -9,10 +9,7 @@ public:
         });
 
         vector<vector<int>> ans(people.size(),vector<int>(2,-1));
-
-        for(auto it : temp) cout<<it[0]<<" "<<it[1]<<endl;
-        cout<<endl;
-
+        
         for(auto it : temp)
         {
             int count = it[1];
