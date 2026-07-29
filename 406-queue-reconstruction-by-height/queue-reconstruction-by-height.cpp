@@ -1,18 +1,28 @@
 class Solution {
 public:
     vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        vector<vector<int>> temp = people;
 
-        sort(people.begin(), people.end(),
-             [](const vector<int>& a, const vector<int>& b) {
-                 if (a[0] == b[0])
-                     return a[1] < b[1];
-                 return a[0] > b[0];
-             });
+        sort(temp.begin(),temp.end(), [](const vector<int>& a, const vector<int>& b){
+            if(a[0] == b[0]) return a[1] > b[1];
+            return a[0] < b[0];
+        });
 
-        vector<vector<int>> ans;
-
-        for (auto &p : people)
-            ans.insert(ans.begin() + p[1], p);
+        vector<vector<int>> ans(people.size(),vector<int>(2,-1));
+        
+        for(auto it : temp)
+        {
+            int count = it[1];
+            for(int i=0 ; i<ans.size() ; i++)
+            {
+                if (count == 0 && ans[i][0] == -1) 
+                {
+                    ans[i] = it;
+                    break;
+                }
+                if (ans[i][0] == -1) count--;
+            }
+        }
 
         return ans;
     }
