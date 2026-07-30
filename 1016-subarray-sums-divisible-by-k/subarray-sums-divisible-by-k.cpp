@@ -9,7 +9,7 @@ public:
         {
             prefix += nums[i];
             int u = ((prefix % k) + k) %k;
-            if(freq.count(u)) ans += freq[u];
+            ans += freq[u];
 
             freq[u]++;
         }
